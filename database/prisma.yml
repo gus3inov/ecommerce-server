@@ -4,6 +4,8 @@ endpoint: https://eu1.prisma.sh/muslim-guseinov-4235e0/ecommerce/ecommerce-dev
 # The file containing the definition of your data model.
 datamodel: datamodel.graphql
 
+secret: mysecret123
+
 # Seed your service with initial data based on `seed.graphql`.
 seed:
   import: seed.graphql
