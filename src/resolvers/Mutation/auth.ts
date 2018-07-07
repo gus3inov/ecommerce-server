@@ -10,7 +10,7 @@ export const auth = {
     })
 
     return {
-      token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
+      token: jwt.sign({ userId: user.id }, "mysecret123"),
       user,
     }
   },
@@ -38,7 +38,7 @@ export const auth = {
 
     return {
       payload: {
-        token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
+        token: jwt.sign({ userId: user.id }, "mysecret123"),
         user,
       }
     }
