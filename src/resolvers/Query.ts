@@ -3,7 +3,11 @@ import { getUserId, Context } from '../utils'
 import { product } from './Mutation/product';
 
 export const Query = {
-  products: forwardTo('db'),
+  products: (parent, args, ctx: Context, info) => {
+    getUserId(ctx);
+
+    return forwardTo('db')(parent, args, ctx, info);
+  },
   feed(parent, args, ctx: Context, info) {
     return ctx.db.query.posts({ where: { isPublished: true } }, info)
   },
