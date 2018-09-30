@@ -1,22 +1,23 @@
 import { Prisma } from 'prisma-binding';
 import * as express from "express";
-import { GraphQLServer } from "graphql-yoga";
+import { ApolloServer, makeExecutableSchema, gql } from "apollo-server";
 import resolvers from './resolvers';
+import { importSchema } from 'graphql-import';
 
-const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers,
+const typeDefs: any = importSchema('./src/schema.graphql');
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+const server = new ApolloServer({
+  schema,
   context: req => ({
     ...req,
     db: new Prisma({
       typeDefs: './src/generated/prisma.graphql',
-      endpoint: 'https://eu1.prisma.sh/muslim-guseinov-4235e0/ecommerce/ecommerce-dev', // the endpoint of the Prisma API
-      debug: true, // log all GraphQL queries & mutations sent to the Prisma API
-      secret: 'mysecret123', // only needed if specified in `database/prisma.yml`
+      endpoint: 'https://eu1.prisma.sh/muslim-guseinov-4235e0/ecommerce/ecommerce-dev',
+      debug: true,
+      secret: 'mysecret123',
     }),
   }),
 })
 
-server.express.use("/images", express.static("images"));
-
-server.start(() => console.log('Server is running on http://localhost:4000'))
+server.listen().then(() => console.log('Server is running on http://localhost:4000'))
