@@ -15,6 +15,7 @@ const storeUpload = async ({ stream, filename }): Promise<any> => {
 
 
 const processUpload = async upload => {
+  
   const { stream, filename, mimetype, encoding } = await upload;
   const { path } = await storeUpload({ stream, filename });
   return path;
@@ -39,4 +40,4 @@ export const product = {
       info
     );
   }
-};
+};``
