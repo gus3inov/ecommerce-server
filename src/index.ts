@@ -1,11 +1,22 @@
-import { Prisma } from 'prisma-binding';
+import {
+  Prisma
+} from 'prisma-binding';
 import * as express from "express";
-import { ApolloServer, makeExecutableSchema, gql } from "apollo-server";
+import {
+  ApolloServer,
+  makeExecutableSchema,
+  gql
+} from "apollo-server-express";
 import resolvers from './resolvers';
-import { importSchema } from 'graphql-import';
+import {
+  importSchema
+} from 'graphql-import';
 
 const typeDefs: any = importSchema('./src/schema.graphql');
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
 
 const server = new ApolloServer({
   schema,
@@ -20,4 +31,13 @@ const server = new ApolloServer({
   }),
 })
 
-server.listen().then(() => console.log('Server is running on http://localhost:4000'))
+const app = express();
+server.applyMiddleware({
+  app
+});
+
+app.listen({
+    port: 4000
+  }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)
