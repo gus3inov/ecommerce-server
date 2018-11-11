@@ -3,11 +3,11 @@ import { Prisma } from './generated/prisma'
 
 export interface Context {
   db: Prisma
-  request: any
+  req: any
 }
 
 export function getUserId(ctx: Context) {
-  const Authorization = ctx.request.get("Authorization");
+  const Authorization = ctx.req.get("Authorization");
   let token = ''
 
   if(Authorization) {
