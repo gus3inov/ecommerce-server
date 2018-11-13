@@ -11,7 +11,9 @@ import resolvers from './resolvers';
 import {
   importSchema
 } from 'graphql-import';
-import { graphqlUploadExpress } from 'graphql-upload'
+import {
+  graphqlUploadExpress
+} from 'graphql-upload'
 
 const typeDefs: any = importSchema('./src/schema.graphql');
 const schema = makeExecutableSchema({
@@ -39,6 +41,8 @@ app.use(graphqlUploadExpress({
   maxFileSize: 10000000,
   maxFiles: 20,
 }))
+
+app.use("/images", express.static("images"));
 
 server.applyMiddleware({
   app
