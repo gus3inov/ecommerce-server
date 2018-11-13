@@ -11,6 +11,7 @@ import resolvers from './resolvers';
 import {
   importSchema
 } from 'graphql-import';
+import { graphqlUploadExpress } from 'graphql-upload'
 
 const typeDefs: any = importSchema('./src/schema.graphql');
 const schema = makeExecutableSchema({
@@ -20,6 +21,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
+  uploads: false,
   context: req => ({
     ...req,
     db: new Prisma({
@@ -32,6 +34,12 @@ const server = new ApolloServer({
 })
 
 const app = express();
+
+app.use(graphqlUploadExpress({
+  maxFileSize: 10000000,
+  maxFiles: 20,
+}))
+
 server.applyMiddleware({
   app
 });
