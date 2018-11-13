@@ -3,7 +3,7 @@ import { createWriteStream, createReadStream } from 'fs';
 import { getUserId, Context } from '../../utils';
 
 const storeUpload = async ({ stream, filename }): Promise<any> => {
-  const path = `images/${shortid.generate()}.jpg`;
+  const path = `images/${shortid.generate()}`;
 
   return new Promise((resolve, reject) =>
     stream
