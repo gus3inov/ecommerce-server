@@ -3,7 +3,7 @@ import { createWriteStream, createReadStream } from 'fs';
 import { getUserId, Context } from '../../utils';
 
 const storeUpload = async ({ stream, filename }): Promise<any> => {
-  const path = `images/${shortid.generate()}`;
+  const path = `images/${shortid.generate()}.jpg`;
 
   return new Promise((resolve, reject) =>
     stream
@@ -17,17 +17,9 @@ const storeUpload = async ({ stream, filename }): Promise<any> => {
 const processUpload = async upload => {
   const image = await upload;
   const { createReadStream, filename } = await upload;
-  console.log('image', image);
-  console.log('createReadStream', createReadStream);
   const stream = createReadStream();
   const { path } = await storeUpload({ stream, filename });
   return path;
-  // return upload.then(async file => {
-  //   const { stream, filename } = file;
-  //   const { path } = await storeUpload({ stream, filename });
-
-  //   return path;
-  // });
 };
 
 export const product = {
