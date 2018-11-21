@@ -1,5 +1,6 @@
 import * as shortid from "shortid";
 import { createWriteStream, createReadStream } from 'fs';
+import { forwardTo } from 'prisma-binding';
 import { getUserId, Context } from '../../utils';
 
 const storeUpload = async ({ stream, filename }): Promise<any> => {
@@ -40,5 +41,35 @@ export const product = {
       },
       info
     );
-  }
+  },
+  async updateProduct(parent, { id, name, price, picture }, ctx: Context, info) {
+    const userId = getUserId(ctx);
+    const product = await ctx.db.query.product({
+      where: { id },
+    })
+  
+    if(userId !== product.seller.id) {
+      throw new Error('Not authorized');
+    }
+
+    let pictureUrl = null;
+    if (picture) {
+      pictureUrl = await processUpload(picture);
+    }
+
+    return ctx.db.mutation.updateProduct(
+      {
+        data: {
+          name,
+          price,
+          pictureUrl,
+        },
+        where: {
+          id
+        }
+      },
+      info
+    );
+  },
+  deleteProduct: forwardTo('db'),
 };
