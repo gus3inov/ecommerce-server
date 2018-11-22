@@ -42,15 +42,19 @@ export const product = {
       info
     );
   },
-  async updateProduct(parent, { id, name, price, picture }, ctx: Context, info) {
+  async updateProduct(
+    parent,
+    { id, name, price, picture },
+    ctx: Context,
+    info
+  ) {
     const userId = getUserId(ctx);
-    const product = await ctx.db.query.product({
-      where: { id },
-    })
-  
-    if(userId !== product.seller.id) {
-      throw new Error('Not authorized');
-    }
+    console.log(name);
+    // const product = await ctx.db.query.product({ where: { id } });
+    // console.log('product: ', product);
+    // if (userId !== product.seller.id) {
+    //   throw new Error("Not authorized");
+    // }
 
     let pictureUrl = null;
     if (picture) {
@@ -62,7 +66,7 @@ export const product = {
         data: {
           name,
           price,
-          pictureUrl,
+          pictureUrl
         },
         where: {
           id
