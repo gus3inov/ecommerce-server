@@ -14,6 +14,11 @@ const storeUpload = async ({ stream, filename }): Promise<any> => {
   );
 };
 
+interface ProductData {
+  name?: string;
+  price?: number;
+  pictureUrl?: string;
+}
 
 const processUpload = async upload => {
   const image = await upload;
@@ -49,17 +54,33 @@ export const product = {
     info
   ) {
     const userId = getUserId(ctx);
-    console.log(name);
-    // const product = await ctx.db.query.product({ where: { id } });
-    // console.log('product: ', product);
-    // if (userId !== product.seller.id) {
-    //   throw new Error("Not authorized");
-    // }
+    const product = await ctx.db.query.product(
+      { where: { id } },
+      `{
+          seller {
+            id
+          }
+      }`
+    );
 
-    let pictureUrl = null;
-    if (picture) {
-      pictureUrl = await processUpload(picture);
+    if (userId !== product.seller.id) {
+      throw new Error("Not authorized");
     }
+
+    const data: ProductData = {};
+
+    if(name) {
+      data.name = name;
+    }
+
+    if(price) {
+      data.price = price;
+    }
+
+    if (picture) {
+      data.pictureUrl = await processUpload(picture);
+    }
+
 
     return ctx.db.mutation.updateProduct(
       {
