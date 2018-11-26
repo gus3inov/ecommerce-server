@@ -84,11 +84,7 @@ export const product = {
 
     return ctx.db.mutation.updateProduct(
       {
-        data: {
-          name,
-          price,
-          pictureUrl
-        },
+        data,
         where: {
           id
         }
