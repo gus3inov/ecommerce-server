@@ -1,7 +1,7 @@
 import * as shortid from "shortid";
-import { createWriteStream, createReadStream } from 'fs';
-import { forwardTo } from 'prisma-binding';
-import { getUserId, Context } from '../../utils';
+import { createWriteStream, createReadStream } from "fs";
+import { forwardTo } from "prisma-binding";
+import { getUserId, Context } from "../../utils";
 
 const storeUpload = async ({ stream, filename }): Promise<any> => {
   const path = `images/${shortid.generate()}`;
@@ -69,18 +69,17 @@ export const product = {
 
     const data: ProductData = {};
 
-    if(name) {
+    if (name) {
       data.name = name;
     }
 
-    if(price) {
+    if (price) {
       data.price = price;
     }
 
     if (picture) {
       data.pictureUrl = await processUpload(picture);
     }
-
 
     return ctx.db.mutation.updateProduct(
       {
@@ -92,5 +91,5 @@ export const product = {
       info
     );
   },
-  deleteProduct: forwardTo('db'),
+  deleteProduct: forwardTo("db")
 };
