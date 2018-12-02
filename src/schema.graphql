@@ -1,4 +1,4 @@
-# import Query.productsConnection, Post, Product, ProductWhereInput, ProductOrderByInput, ProductWhereUniqueInput from "./generated/prisma.graphql"
+# import Subscription.product, Query.productsConnection, Post, Product, ProductWhereInput, ProductOrderByInput, ProductWhereUniqueInput from "./generated/prisma.graphql"
 
 scalar Upload
 
@@ -6,7 +6,15 @@ type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post!
-  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product] !
+  products(
+    where: ProductWhereInput
+    orderBy: ProductOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Product]!
   me: User
 }
 
